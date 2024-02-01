@@ -35,10 +35,12 @@
           if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
             assign option_disabled = false
           endif
+
         when 2
           if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
             assign option_disabled = false
           endif
+
         when 3
           if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == product.selected_or_first_available_variant.option2 and variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
             assign option_disabled = false
@@ -69,9 +71,10 @@
   {%- if option.name == 'Size' -%}
     <option
         value="{{ value | escape }}"
-        {% if option.selected_value == value %}
+        {%  if forloop.first %}
           selected="selected"
         {% endif %}
+
         {% if swatch_value and picker_type == 'swatch_dropdown' %}
           data-option-swatch-value="{{ swatch_value }}"
         {% endif %}
