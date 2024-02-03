@@ -170,10 +170,6 @@
           setTimeout(async function(){
             const response = await fetch(window.Shopify.routes.root + 'cart/add.js', request);
             const data = await response.json();
-
-            if (!data.length) {
-              throw new Error('Failed to add gift to cart');
-            }
           }, 600)
         } catch (err) {
           console.error({err});
