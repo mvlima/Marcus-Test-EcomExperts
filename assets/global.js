@@ -1098,6 +1098,7 @@ class VariantSelects extends HTMLElement {
   constructor() {
     super();
     this.addEventListener("change", this.onVariantChange);
+    this.addEventListener("load", this.toggleAddButton(true, "", true));
   }
 
   onVariantChange(event) {
@@ -1112,6 +1113,8 @@ class VariantSelects extends HTMLElement {
     if (!this.currentVariant) {
       this.toggleAddButton(true, "", true);
       this.setUnavailable();
+    } else if (this.currentVariant.option2 === "Unselected") {
+      this.toggleAddButton(true, "", true);
     } else {
       this.updateMedia();
       this.updateURL();
@@ -1431,9 +1434,12 @@ class VariantSelects extends HTMLElement {
     const productForm = document.getElementById(
       `product-form-${this.dataset.section}`
     );
+
     if (!productForm) return;
+
     const addButton = productForm.querySelector('[name="add"]');
     const addButtonText = productForm.querySelector('[name="add"] > span');
+
     if (!addButton) return;
 
     if (disable) {
