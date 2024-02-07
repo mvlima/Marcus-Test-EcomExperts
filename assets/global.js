@@ -1115,6 +1115,8 @@ class VariantSelects extends HTMLElement {
       this.setUnavailable();
     } else if (this.currentVariant.option2 === "Unselected") {
       this.toggleAddButton(true, "", true);
+      this.updateMedia();
+      this.updateURL();
     } else {
       this.updateMedia();
       this.updateURL();
