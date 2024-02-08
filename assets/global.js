@@ -1117,6 +1117,7 @@ class VariantSelects extends HTMLElement {
       this.toggleAddButton(true, "", true);
       this.updateMedia();
       this.updateURL();
+      this.renderProductInfo(false);
     } else {
       this.updateMedia();
       this.updateURL();
@@ -1297,7 +1298,7 @@ class VariantSelects extends HTMLElement {
     if (productForm) productForm.handleErrorMessage();
   }
 
-  renderProductInfo() {
+  renderProductInfo(changeAddButtonStatus = true) {
     const requestedVariantId = this.currentVariant.id;
     const sectionId = this.dataset.originalSection
       ? this.dataset.originalSection
@@ -1377,13 +1378,17 @@ class VariantSelects extends HTMLElement {
         );
 
         if (volumeNote) volumeNote.classList.remove("hidden");
+
         if (volumePricingDestination)
           volumePricingDestination.classList.remove("hidden");
+
         if (qtyRules) qtyRules.classList.remove("hidden");
 
         if (source && destination) destination.innerHTML = source.innerHTML;
+
         if (inventorySource && inventoryDestination)
           inventoryDestination.innerHTML = inventorySource.innerHTML;
+
         if (skuSource && skuDestination) {
           skuDestination.innerHTML = skuSource.innerHTML;
           skuDestination.classList.toggle(
@@ -1414,13 +1419,15 @@ class VariantSelects extends HTMLElement {
             inventorySource.innerText === ""
           );
 
-        const addButtonUpdated = html.getElementById(
-          `ProductSubmitButton-${sectionId}`
-        );
-        this.toggleAddButton(
-          addButtonUpdated ? addButtonUpdated.hasAttribute("disabled") : true,
-          window.variantStrings.soldOut
-        );
+        if (changeAddButtonStatus) {
+          const addButtonUpdated = html.getElementById(
+            `ProductSubmitButton-${sectionId}`
+          );
+          this.toggleAddButton(
+            addButtonUpdated ? addButtonUpdated.hasAttribute("disabled") : true,
+            window.variantStrings.soldOut
+          );
+        }
 
         publish(PUB_SUB_EVENTS.variantChange, {
           data: {
