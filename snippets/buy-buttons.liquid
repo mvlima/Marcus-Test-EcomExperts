@@ -93,6 +93,7 @@
             </span>
             {%- render 'loading-spinner' -%}
           </button>
+
           {%- if show_dynamic_checkout -%}
             {{ form | payment_button }}
           {%- endif -%}
@@ -147,3 +148,34 @@
     <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 </div>
+
+<script>
+  document.querySelectorAll('form[data-type="add-to-cart-form"]').forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      const addToCartForm = document.querySelector('form[action$="/cart/add"]');
+
+      if (addToCartForm.id.value == '47863060922661') {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+
+        const request = {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify({
+            'id': '47853136871717',
+            'quantity': 1
+          })
+        };
+
+        try {
+          setTimeout(async function(){
+            const response = await fetch(window.Shopify.routes.root + 'cart/add.js', request);
+            const data = await response.json();
+          }, 600)
+        } catch (err) {
+          console.error({err});
+          throw err;
+        }
+      }
+    });
+  });
+</script>
